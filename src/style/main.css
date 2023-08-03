@@ -5,4 +5,30 @@
 
 body {
     background-color: #0F0F0F;
+    width: 100%;
+}
+
+header, footer {
+    width: 100%;
+}
+
+nav ul, footer {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul li {
+    list-style-type: none;
+    margin: 3em 1em;
+}
+
+#nav-name {
+    background-color: chocolate;
+    margin: 0 3em;
+    padding: 5em 2em;
+    display: flex;
+    align-items: center;
+    text-align: center;
 }
