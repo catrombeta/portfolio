@@ -45,13 +45,20 @@ nav ul li .fa-solid {
 a {
     text-decoration: none;
     cursor: pointer;
+    color: #D4D4D4;
 }
 
-.anchors-contact {
-    cursor: pointer;
+a i.fa-solid,
+a i.fa-brands, a {
+    transition: color 0.5s;
 }
 
-a:hover, .anchors-contact .fa-solid:hover, .anchors-contact .fa-brands:hover {
+a:hover {
+    color: #9D2804 !important;
+}
+
+a:hover i.fa-solid,
+a:hover i.fa-brands {
     color: #9D2804 !important;
 }
 
@@ -72,11 +79,17 @@ a:hover, .anchors-contact .fa-solid:hover, .anchors-contact .fa-brands:hover {
 }
 
 .carousel-control-prev {
-    margin-left: -1em !important;
+    margin-left: -1.5em !important;
 }
 
 .carousel-control-next {
-    margin-right: -1em !important;
+    margin-right: -1.5em !important;
+}
+
+.carousel-item p {
+    text-align: center;
+    margin-top: 0.5em;
+    font-weight: 700;
 }
 
 .anchors-contact {
@@ -85,6 +98,20 @@ a:hover, .anchors-contact .fa-solid:hover, .anchors-contact .fa-brands:hover {
 
 .anchors-contact span {
     margin: 0 0.1em;
+}
+
+.fade-in {
+    opacity: 0; /* Começa invisível */
+    animation: fadeInAnimation 2s ease forwards; /* Nome da animação, duração, tipo de animação, preenchimento final */
+}
+
+@keyframes fadeInAnimation {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 footer {
