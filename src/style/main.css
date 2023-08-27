@@ -20,9 +20,7 @@ header {
 }
 
 nav {
-    display: flex;
-    justify-content: space-around;
-    margin: 1em 0;
+    background-color: #0F0F0F;
     border-bottom: 1px solid #D4D4D4;
 }
 
@@ -45,7 +43,7 @@ nav ul li .fa-solid {
 a {
     text-decoration: none;
     cursor: pointer;
-    color: #D4D4D4;
+    color: #D4D4D4 !important;
 }
 
 a i.fa-solid,
@@ -59,6 +57,10 @@ a:hover {
 
 a:hover i.fa-solid,
 a:hover i.fa-brands {
+    color: #9D2804 !important;
+}
+
+nav a:active {
     color: #9D2804 !important;
 }
 
@@ -100,9 +102,97 @@ a:hover i.fa-brands {
     margin: 0 0.1em;
 }
 
+/* SKILLS SECTION */
+
+canvas {
+    margin: 1em 1em;
+}
+
+#skills-section {
+    background-image: url("../../img/background-skills.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100vh;
+    padding-top: 6em;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+}
+
+/* PROJECTS SECTION */
+
+#projects-section {
+    background-image: url("../../img/background-projects.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    height: 100vh;
+    margin-top: 6em;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.content-projects {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: fit-content;
+}
+
+.project-1, .project-2, .project-3, .project-4, .project-5, .project-6 {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    margin: 1em 0.5em;
+    border-radius: 0.5em;
+    filter: grayscale(1);
+    height: 18em;
+    width: 13em;
+    transition: width 0.5s, filter 0.5s;
+    position: relative;
+    overflow: hidden;
+}
+
+.description-card {
+    padding: 1em;
+    font-weight: 700;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    transform-origin: bottom left;
+    transform: translateX(-100%) translateY(0%) rotate(180deg);
+    transition: transform 0.5s;
+}
+
+.link-card {
+    padding: 1em;
+    transform-origin: bottom left;
+    transform: rotate(180deg);
+    transform: translateX(-100%) translateY(0%) rotate(180deg);
+    transition: transform 0.5s;
+}
+
+.grow-on-hover:hover {
+    width: 18em; /* Aumenta a largura ao passar o cursor */
+    filter: grayscale(0);
+}
+
+.grow-on-hover:hover .description-card, .grow-on-hover:hover .link-card {
+    writing-mode: horizontal-tb; /* Altera o modo de escrita para horizontal */
+    transform: translateX(0%) translateY(0%) rotate(0deg);
+}
+
 .fade-in {
-    opacity: 0; /* Começa invisível */
-    animation: fadeInAnimation 2s ease forwards; /* Nome da animação, duração, tipo de animação, preenchimento final */
+    opacity: 0;
+    animation: fadeInAnimation 2s ease forwards;
 }
 
 @keyframes fadeInAnimation {
@@ -114,12 +204,31 @@ a:hover i.fa-brands {
     }
 }
 
-footer {
-    display: flex;
-    justify-content: center;
-    padding: 0;
-    margin: 0;
-    position: absolute;
-    bottom: 0;
-    margin: 1em 0;
+@media screen and (max-width: 600px) {
+    header {
+        position: relative;
+    }
+
+    #main-section {
+        height: 93vh;
+    }
+
+    #main-section .col-md-8 {
+        padding: 1em 2em;
+    }
+
+    #main-section .col-md-2 {
+        display: flex;
+        justify-content: center;
+        margin-top: 1em;
+    }
+
+    #main-section #carouselStacks {
+        box-sizing: border-box;
+        width: 50%;
+    }
+
+    footer {
+        display: none;
+    }
 }
