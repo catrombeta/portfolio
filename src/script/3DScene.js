@@ -9,10 +9,6 @@ const objectHeight = 200;
 const movementAmplitude = 10; // Amplitude do movimento
 const movementSpeed = 0.001;   // Velocidade do movimento
 
-// Defina as cores que se destacam do fundo preto
-const hoverColor = new THREE.Color(0xffffff); // Cor branca para realçar
-const defaultColor = new THREE.Color(0xffa500); // Laranja
-
 const stackInfo = [
   { name: 'CSS', modelPath: '/obj/css.obj' },
   { name: 'HTML', modelPath: '/obj/html.obj' },
@@ -49,36 +45,25 @@ const objectScenes = stackInfo.map(stack => {
     const maxDimension = Math.max(objectSize.x, objectSize.y, objectSize.z);
     
     // Aumente o fator de escala para tornar os objetos maiores
-    const scaleFactor = 1; // Ajuste conforme necessário
+    const scaleFactor = 1.5; // Ajuste conforme necessário
     const objectScale = (objectWidth / maxDimension) * scaleFactor;
     model.scale.set(objectScale, objectScale, objectScale);
-
-    // Defina as cores iniciais para os objetos
-    model.traverse(child => {
-      if (child.isMesh) {
-        child.material.color = defaultColor;
-      }
-    });
 
     scene.add(model);
   });
 
   // Posicione a câmera
-  camera.position.z = 300;
+  camera.position.z = 500;
 
   // Configurar as luzes e controles de órbita
   const light = new THREE.HemisphereLight(0xd4d4d4, 0xf5730a, 1);
   scene.add(light);
 
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+  const ambientLight = new THREE.AmbientLight(0x404040);
   scene.add(ambientLight);
 
   const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
   scene.add(directionalLight);
-
-  const directionalLightFromBottom = new THREE.DirectionalLight(0xffffff, 0.5);
-  directionalLightFromBottom.position.set(0, 1, 0); // Posição abaixo dos objetos
-  scene.add(directionalLightFromBottom);
 
   const controls = new OrbitControls(camera, renderer.domElement);
   controls.enableDamping = true;
@@ -97,10 +82,12 @@ function animate() {
     scene.traverse(obj => {
       if (obj.isMesh) {
         // Calcule a posição de deslocamento usando funções senoidais para criar um movimento suave
-        const displacement = Math.sin(time) * movementAmplitude;
+        const displacementY = Math.sin(time) * movementAmplitude;
+        const displacementZ = Math.sin(time * 0.25) * movementAmplitude; // Adicione essa linha
 
         // Aplique a posição de deslocamento apenas na coordenada y (altura)
-        obj.position.y = displacement;
+        obj.position.y = displacementY;
+        obj.position.z = displacementZ;
       }
     });
 
@@ -113,9 +100,12 @@ function updateLightPosition(event) {
   const mouseX = (event.clientX / objectWidth) * 2 - 1;
   const mouseY = -(event.clientY / objectHeight) * 2 + 1;
 
+  const lightIntensity = 1 + Math.abs(mouseX * 0.2); // Ajuste o fator conforme necessário
+
   objectScenes.forEach(({ scene }) => {
     scene.traverse(obj => {
       if (obj.isHemisphereLight) {
+        obj.intensity = lightIntensity;
         obj.position.set(mouseX * 100, mouseY * 100, 300); // Ajuste os valores conforme necessário
       }
     });
@@ -124,33 +114,5 @@ function updateLightPosition(event) {
 
 // Registre o evento mousemove para atualizar a posição da luz conforme o mouse se move
 container.addEventListener('mousemove', updateLightPosition);
-
-function setHoverColor(sceneIndex, objIndex, hover) {
-  const color = hover ? hoverColor : defaultColor;
-  objectScenes[sceneIndex].scene.traverse(obj => {
-    if (obj.isMesh && obj.userData.index === objIndex) {
-      obj.material.color.copy(color);
-    }
-  });
-}
-
-
-// Registre o evento mousemove para detectar quando o mouse está sobre os objetos
-container.addEventListener('mousemove', event => {
-  const mouseX = (event.clientX / objectWidth) * 2 - 1;
-  const mouseY = -(event.clientY / objectHeight) * 2 + 1;
-
-  const raycaster = new THREE.Raycaster();
-  raycaster.setFromCamera({ x: mouseX, y: mouseY }, objectScenes[0].camera);
-
-  objectScenes.forEach(({ scene }, sceneIndex) => {
-    scene.traverse(obj => {
-      if (obj.isMesh) {
-        const intersects = raycaster.intersectObject(obj);
-        setHoverColor(sceneIndex, obj.userData.index, intersects.length > 0);
-      }
-    });
-  });
-});
 
 animate();
